@@ -11,10 +11,10 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: subosito/flutter-action@v1
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
         with:
-          flutter-version: '2.x'
+          flutter-version: '3.x'
       - run: flutter pub get
       - run: flutter test
       - run: flutter test integration_test
@@ -23,10 +23,10 @@ jobs:
     needs: test
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: subosito/flutter-action@v1
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
         with:
-          flutter-version: '2.x'
+          flutter-version: '3.x'
       - run: flutter build web
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
