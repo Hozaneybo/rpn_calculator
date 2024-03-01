@@ -1,11 +1,15 @@
-
+abstract class Command {
+  void execute();
+  void undo();
+}
 
 class Calculator {
   List<double> stack = [];
+  List<Command> history = [];
 
   void push(double number) {
     stack.add(number);
-    printStack();
+    printStack(); // For debugging
   }
 
   void performOperation(String operation) {
@@ -37,15 +41,21 @@ class Calculator {
     }
 
     stack.add(result);
-    printStack();
+    printStack(); // For debugging
   }
 
   void printStack() {
     print(stack);
   }
 
-  void clear() {
+  void clear(){
     stack.clear();
   }
 
+  void undo() {
+    if (history.isNotEmpty) {
+      history.removeLast().undo();
+      printStack(); // For debugging
+    }
+  }
 }
