@@ -121,6 +121,7 @@ class _MyAppState extends State<RPNCalculator> {
           mainAxisAlignment: MainAxisAlignment.end,
           children: <Widget>[
             Expanded(
+              flex: 1,
               child: Container(
                 padding: EdgeInsets.all(5),
                 alignment: Alignment.bottomRight,
@@ -154,6 +155,7 @@ class _MyAppState extends State<RPNCalculator> {
               ),
             ),
             Expanded(
+              flex: 2,
               child: GridView.count(
                 shrinkWrap: true,
                 padding: EdgeInsets.all(8.0),
