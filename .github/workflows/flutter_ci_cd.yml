@@ -1,36 +1,24 @@
-name: Flutter CI/CD
+name: Flutter Web CI/CD
 
 on:
+  workflow_dispatch:
   push:
     branches:
-      - main
-  workflow_dispatch:
-
-permissions:
-  contents: write
-
+      - master
 
 jobs:
-  build:
-    name: Test and Build
+  build-and-deploy:
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v4
-
       - uses: subosito/flutter-action@v2
         with:
-          channel: 'stable'
-          cache: true
-          cache-key: 'flutter-:os:-:channel:-:version:-:arch:-:hash:'
-          cache-path: '${{ runner.tool_cache }}/flutter/:channel:-:version:-:arch:'
-
-      - run: flutter --version
+          flutter-version: '3.x'
       - run: flutter pub get
       - run: flutter test
       - run: flutter build web --base-href /${{ github.event.repository.name }}/
-
-      - uses: JamesIves/github-pages-deploy-action@v4
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./build/web
