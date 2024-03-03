@@ -34,10 +34,8 @@ jobs:
         run: flutter test
 
       # Run integration tests
-      # Run integration tests
       - name: Run web integration tests
-        run: flutter drive --target=integration_test/app_test.dart -d chrome
-
+        run: flutter drive --target=integration_test/integration_test.dart -d chrome
 
 
       - name: Build Web
