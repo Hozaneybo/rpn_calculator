@@ -25,7 +25,7 @@ void main() {
       await tester.tap(find.text('*'));
       await tester.pumpAndSettle();
 
-      expect(find.text('44.0'), findsOneWidget);
+      expect(find.text('44'), findsOneWidget);
     });
   });
 }
