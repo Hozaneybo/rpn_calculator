@@ -95,6 +95,16 @@ class _MyAppState extends State<RPNCalculator> {
 
   @override
   Widget build(BuildContext context) {
+    // Obtain the current media query data
+    var mediaQuery = MediaQuery.of(context);
+    // Calculate the number of columns for the GridView based on the width of the screen
+    int gridCount = mediaQuery.size.width > 600 ? 8 : 4;
+    // Calculate the appropriate padding
+    double padding = mediaQuery.size.width > 600 ? 16.0 : 8.0;
+    // Calculate the size ratio for the buttons based on the screen width
+    double buttonWidth = (mediaQuery.size.width - padding * (gridCount + 1)) / gridCount;
+    double buttonHeight = buttonWidth * 0.6; // Maintain the aspect ratio of the buttons
+
     return MaterialApp(
       home: Scaffold(
         backgroundColor: Colors.blueGrey[900],
@@ -143,56 +153,58 @@ class _MyAppState extends State<RPNCalculator> {
                 ),
               ),
             ),
-            GridView.count(
-              shrinkWrap: true,
-              padding: EdgeInsets.all(8.0),
-              crossAxisCount: 4,
-              mainAxisSpacing: 8.0,
-              crossAxisSpacing: 8.0,
-              childAspectRatio: (7/6),
-              children: <Widget>[
-                ...['7', '8', '9', '/', '4', '5', '6', '*', '1', '2', '3', '-', '0', '.', 'Enter', '+']
-                    .map((key) {
-                  return GridTile(
+            Expanded(
+              child: GridView.count(
+                shrinkWrap: true,
+                padding: EdgeInsets.all(8.0),
+                crossAxisCount: 4,
+                mainAxisSpacing: 8.0,
+                crossAxisSpacing: 8.0,
+                childAspectRatio: (7/6),
+                children: <Widget>[
+                  ...['7', '8', '9', '/', '4', '5', '6', '*', '1', '2', '3', '-', '0', '.', 'Enter', '+']
+                      .map((key) {
+                    return GridTile(
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.blueGrey[800], // Button background color
+                          foregroundColor: Colors.white, // Text color
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8.0),
+                          ),
+                          elevation: 5, // Button shadow
+                        ),
+                        child: Text(key),
+                        onPressed: () {
+                          if(['1', '2','3','4','5','6','7','8','9','0', '.'].contains(key)){
+                            _handleNumber(key);
+                          }
+                          if (key == 'Enter') {
+                            _enterPressed();
+                          } else if (['/', '*', '-', '+'].contains(key)) {
+                            _handleOperation(key);
+                          }
+                        },
+                      ),
+                    );
+                  }).toList(),
+                  GridTile(
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.blueGrey[800], // Button background color
+                        minimumSize: Size(40.0, 20.0) ,
+                        backgroundColor: Colors.redAccent, // Button background color
                         foregroundColor: Colors.white, // Text color
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8.0),
                         ),
                         elevation: 5, // Button shadow
                       ),
-                      child: Text(key),
-                      onPressed: () {
-                        if(['1', '2','3','4','5','6','7','8','9','0', '.'].contains(key)){
-                          _handleNumber(key);
-                        }
-                        if (key == 'Enter') {
-                          _enterPressed();
-                        } else if (['/', '*', '-', '+'].contains(key)) {
-                          _handleOperation(key);
-                        }
-                      },
+                      child: Text('Clear'),
+                      onPressed: (){_clearAll();},
                     ),
-                  );
-                }).toList(),
-                GridTile(
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      minimumSize: Size(40.0, 20.0) ,
-                      backgroundColor: Colors.redAccent, // Button background color
-                      foregroundColor: Colors.white, // Text color
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8.0),
-                      ),
-                      elevation: 5, // Button shadow
-                    ),
-                    child: Text('Clear'),
-                    onPressed: (){_clearAll();},
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ],
         ),
