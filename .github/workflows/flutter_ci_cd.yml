@@ -5,17 +5,40 @@ on:
   push:
     branches:
       - master
+
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
+
     steps:
       - uses: actions/checkout@v4
+
       - uses: subosito/flutter-action@v2
         with:
           flutter-version: '3.x'
-      - run: flutter pub get
-      - run: flutter test
-      - run: flutter build web --base-href /${{ github.event.repository.name }}/
+
+      # Install Chrome for web integration tests
+      - name: Setup Chrome
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y google-chrome-stable
+          sudo chmod -R 777 /opt/google/chrome
+          sudo chrome --version
+
+      - name: Install Flutter dependencies
+        run: flutter pub get
+
+      # Optionally, you can run unit and widget tests before integration tests
+      - name: Run tests
+        run: flutter test
+
+      # Run integration tests
+      - name: Run integration tests
+        run: flutter drive --driver=test_driver/integration_test.dart --target=integration_test/app_test.dart -d chrome
+
+      - name: Build Web
+        run: flutter build web --base-href /${{ github.event.repository.name }}/
+
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:

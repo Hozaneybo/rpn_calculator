@@ -1,9 +1,5 @@
 
-import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-
-import 'package:rpn_calculator/main.dart';
-
 import '../lib/logic.dart';
 
 void main() {
