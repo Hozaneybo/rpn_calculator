@@ -34,7 +34,7 @@ jobs:
         run: flutter test
 
       # Run integration tests
-      - name: Run integration tests
+      - name: Run web integration tests
         run: flutter test integration_test
 
 
