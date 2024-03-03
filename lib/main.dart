@@ -107,7 +107,7 @@ class _MyAppState extends State<RPNCalculator> {
 
     return MaterialApp(
       home: Scaffold(
-        backgroundColor: Colors.blueGrey[900],
+        backgroundColor: Colors.tealAccent,
         appBar: AppBar(
           backgroundColor: Colors.blueGrey[800],
           title: const Text('RPN Calculator',
